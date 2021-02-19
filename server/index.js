@@ -1,7 +1,14 @@
-const express = require("express");
-const app = express();
-app.use(express.static("public"));
+const express = require('express');
+const socket = require('socket.io');
+const http = require('http');
 
-const server = require("http").Server(app);
-const io = require("socket.io")(server);
-server.listen(5000);
+const PORT = process.env.PORT || 5000;
+
+
+const app = express();
+const server = http.createServer(app);
+const io = socket(server);
+
+app.use('/', require('./router'));
+
+server.listen(PORT);
